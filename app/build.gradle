@@ -1,0 +1,50 @@
+apply plugin: 'com.fihtdc.gradle.remote-sign'
+apply plugin: 'com.android.application'
+
+buildscript {
+    repositories {
+        jcenter()
+        maven { url "https://jitpack.io" }
+    }
+    dependencies {
+        classpath 'com.github.jasoncychueh:remote-sign:1.0.0'
+    }
+}
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+
+    defaultConfig {
+        applicationId "com.evenwell.cameraconfig"
+        minSdkVersion 23
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+    }
+    remoteSigningConfigs {
+        nokia {
+            username 'Tooladmin'
+            password 'Foxconn1234'
+            keySet 'NOKIA'
+            apkCert 'platform'
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            remoteSigningConfig remoteSigningConfigs.nokia
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            remoteSigningConfig remoteSigningConfigs.nokia
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:25.2.0'
+    compile 'com.android.support:recyclerview-v7:25.2.0'
+}
