@@ -62,18 +62,8 @@ public class ConfigAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         ((ConfigViewHolder) holder).mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    mSetSystemProperties.invoke(null,
-                            new Object[]{
-                                    mConfigs.get(position),
-                                    ((ConfigViewHolder) holder).mEditText.getText().toString()});
-
-                    Toast.makeText(mContext, R.string.set_property_done, Toast.LENGTH_SHORT).show();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
-                    e.printStackTrace();
-                }
+                updateConfig(position, ((ConfigViewHolder) holder).mEditText.getText().toString());
+                Toast.makeText(mContext, R.string.set_property_done, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -86,5 +76,22 @@ public class ConfigAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void setConfigs(List<String> configs) {
         mConfigs = configs;
         notifyDataSetChanged();
+    }
+
+    public List<String> getData() {
+        return mConfigs;
+    }
+
+    public void updateConfig(int position, String value) {
+        try {
+            mSetSystemProperties.invoke(null,
+                    new Object[]{
+                            mConfigs.get(position),
+                            value});
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
     }
 }

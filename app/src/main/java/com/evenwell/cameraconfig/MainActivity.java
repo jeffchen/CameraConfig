@@ -8,8 +8,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.evenwell.cameraconfig.adapter.ConfigAdapter;
+import com.evenwell.cameraconfig.viewholder.ConfigViewHolder;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -110,5 +112,15 @@ public class MainActivity extends AppCompatActivity {
         }
 
         mAdapter.setConfigs(configs);
+    }
+
+    public void saveAll(View view) {
+        for (int i = 0; i < mAdapter.getItemCount(); i++) {
+            ConfigViewHolder configViewHolder = (ConfigViewHolder) mRecyclerView.findViewHolderForAdapterPosition(i);
+            if (!configViewHolder.mEditText.getText().toString().equals("")) {
+                mAdapter.updateConfig(i, configViewHolder.mEditText.getText().toString());
+            }
+        }
+        Toast.makeText(getApplicationContext(), R.string.set_property_done, Toast.LENGTH_SHORT).show();
     }
 }

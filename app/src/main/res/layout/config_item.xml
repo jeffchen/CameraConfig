@@ -15,7 +15,7 @@
             android:id="@+id/config_value"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"/>
+            android:inputType="numberDecimal"/>
     </LinearLayout>
     <Button
         android:id="@+id/config_submit"
